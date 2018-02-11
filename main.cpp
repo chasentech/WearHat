@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 	//检测人脸
 	CascadeClassifier cascade, nestedCascade;
 	//训练好的文件名称，放置在可执行文件同目录下
-	cascade.load("E:/mygithub/WearHat/haarcascade_frontalface_alt.xml");
+	cascade.load("haarcascade_frontalface_alt.xml");
 
 
 	int hat_number = 1;		//帽子类型
@@ -250,21 +250,21 @@ int main(int argc, char **argv)
 			Point add_point = Point(0, 0);	//添加logo起始点
 			switch (hat_number)
 			{
-			case 1: hat = imread("E:/mygithub/WearHat/hat1.png", -1); //载入带Alpha图像
+			case 1: hat = imread("hat1.png", -1); //载入带Alpha图像
 				my_thresh = 90;
 				resize(hat, hat, Size(hat.cols * radius / 180, hat.rows * radius / 180));
 				add_point = Point(center.x - (hat.cols >> 1), center.y - radius - (50 + 130 * radius / 180)); //起始点
 				if (add_point.x < 0 || add_point.y < 0)
 					add_point = Point(0, 0);
 				break;
-			case 2: hat = imread("E:/mygithub/WearHat/hat2.png", -1); //载入带Alpha图像
+			case 2: hat = imread("hat2.png", -1); //载入带Alpha图像
 				my_thresh = 62;
 				resize(hat, hat, Size(hat.cols * radius / 200, hat.rows * radius / 200));
 				add_point = Point(center.x - (hat.cols >> 1) - 40, center.y - radius - (40 + 130 * radius / 200)); //起始点
 				if (add_point.x < 0 || add_point.y < 0)
 					add_point = Point(0, 0);
 				break;
-			case 3: hat = imread("E:/mygithub/WearHat/hat3.png", -1); //载入带Alpha图像
+			case 3: hat = imread("hat3.png", -1); //载入带Alpha图像
 				my_thresh = 246;
 				resize(hat, hat, Size(hat.cols * radius / 170, hat.rows * radius / 170));
 				add_point = Point(center.x - (hat.cols >> 1) + 15, center.y - radius - (130 + 130 * radius / 190)); //起始点
