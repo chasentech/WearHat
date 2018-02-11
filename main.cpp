@@ -5,6 +5,7 @@
 using namespace cv;
 using namespace std;
 
+//自定义二值化函数
 void mythreshold(Mat &img, uchar T, bool flag)
 {
 	int n1 = img.rows;
@@ -35,6 +36,7 @@ void mythreshold(Mat &img, uchar T, bool flag)
 	}
 }
 
+//添加logo函数
 void add_logo(Mat &img, Mat &logo, int thresh, Point start)
 {
 	//二值化制作掩码
@@ -52,6 +54,7 @@ void add_logo(Mat &img, Mat &logo, int thresh, Point start)
 	logo.copyTo(img_show, mask);
 }
 
+//人脸检测
 void detectAndDraw(Mat& img, CascadeClassifier& cascade,
 	double scale, bool tryflip, Point &cen, int &rad)
 {
@@ -161,6 +164,7 @@ void detectAndDraw(Mat& img, CascadeClassifier& cascade,
 	imshow("result", img);
 }
 
+//输出帮助信息
 void output_text()
 {
 	//输出欢迎信息和OpenCV版本
@@ -223,8 +227,7 @@ int main(int argc, char **argv)
 	//训练好的文件名称，放置在可执行文件同目录下
 	cascade.load("haarcascade_frontalface_alt.xml");
 
-
-	int hat_number = 1;		//帽子类型
+	int hat_number = 1;		//默认帽子类型为1
 	Mat img;
 	VideoCapture cap(0);
 	cout << "帽子类型为: " << 1 << endl;
@@ -234,8 +237,8 @@ int main(int argc, char **argv)
 		if (img.empty()) break;
 		//imshow("img", img);
 
-		Point center;
-		int radius = 0;
+		Point center;		//人脸圆心坐标
+		int radius = 0;		//人脸圆形区域半径
 		Mat img_dete;
 		img.copyTo(img_dete);
 		detectAndDraw(img_dete, cascade, 2, 0, center, radius);
@@ -251,10 +254,10 @@ int main(int argc, char **argv)
 			switch (hat_number)
 			{
 			case 1: hat = imread("hat1.png", -1); //载入带Alpha图像
-				my_thresh = 90;
-				resize(hat, hat, Size(hat.cols * radius / 180, hat.rows * radius / 180));
+				my_thresh = 90;		//根据测试选择不同的阈值
+				resize(hat, hat, Size(hat.cols * radius / 180, hat.rows * radius / 180));	//对帽子进行缩放
 				add_point = Point(center.x - (hat.cols >> 1), center.y - radius - (50 + 130 * radius / 180)); //起始点
-				if (add_point.x < 0 || add_point.y < 0)
+				if (add_point.x < 0 || add_point.y < 0)		//防止超出显示范围
 					add_point = Point(0, 0);
 				break;
 			case 2: hat = imread("hat2.png", -1); //载入带Alpha图像
@@ -285,10 +288,10 @@ int main(int argc, char **argv)
 				img.copyTo(img_temp);
 				add_logo(img_temp, hat, my_thresh, add_point);
 			}
-			else img_temp = img;
+			else img_temp = img;	//帽子超出显示范围则继续显示源图
 		}
 		else 
-			img_temp = img;
+			img_temp = img;			//未检测到人脸则继续显示源图
 
 		imshow("添加logo", img_temp);
 
@@ -296,7 +299,7 @@ int main(int argc, char **argv)
 		switch (key)
 		{
 			case 27: return 0; break;
-			case 32: hat_number++;
+			case 32: hat_number++;		//更换帽子类型
 				if (hat_number == 4)
 				{
 					hat_number = 1;
