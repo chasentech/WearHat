@@ -2,6 +2,9 @@
 #include <opencv2/objdetect/objdetect.hpp>
 #include <iostream>
 
+#include "putText.h"
+
+
 using namespace cv;
 using namespace std;
 
@@ -135,6 +138,7 @@ void detectAndDraw(Mat& img, CascadeClassifier& cascade,
 			cen = center;
 			rad = radius;
 
+			putTextZH(img, "检测到人脸", Point(10, 60), Scalar(0, 255, 0), 30, "宋体", false, false);
 		}
 		else
 			rectangle(img, cvPoint(cvRound(r->x*scale), cvRound(r->y*scale)),
@@ -161,6 +165,12 @@ void detectAndDraw(Mat& img, CascadeClassifier& cascade,
 		//	circle(img, center, radius, color, 3, 8, 0);
 		//}
 	}
+
+	//putTextZH(img, "Arial字体换...\n行显示!", Point(50, 50), Scalar(0, 0, 255), 30, "Arial");
+	//putTextZH(img, "微软雅黑字体换...\n行，斜体，下划线，显示!", Point(50, 100), Scalar(0, 255, 0), 30, "微软雅黑", true, true);
+	//putTextZH(img, "楷体字体换...\n行，斜体，下划线，显示!", Point(50, 200), Scalar(128, 255, 0), 30, "楷体", true, false);
+
+	putTextZH(img, "请按空格键换帽子", Point(10, 10), Scalar(0, 0, 255), 30, "宋体", false, false);
 	imshow("result", img);
 }
 
